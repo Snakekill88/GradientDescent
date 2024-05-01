@@ -28,9 +28,8 @@ if __name__ == '__main__':
 
     it_lr = [(2000, 0.001), (500, 0.01), (200, 0.05), (100, 0.1)]
 
-    theta = np.random.randn(2, 1)
-
     for n in it_lr:
+        theta = np.random.randn(2, 1)
         X_b = np.c_[(np.ones((len(X), 1)), X)]
         theta, cost_history, theta_history = gradient_descent(X_b, Y, theta, n[1], n[0])
 
@@ -43,11 +42,9 @@ if __name__ == '__main__':
         plt.rcParams['savefig.dpi'] = 500
         plt.plot(X, Y, 'o')
         x1 = np.linspace(0.0, 2.0)
-        j = 0.0
         for i in theta_history:
             y1 = i[0] * x1 + i[1]
-            plt.plot(x1, y1, linewidth=.1, color=((1 - j), j, .2), alpha=.3)
-            j = j + (1.0 / len(theta_history))
+            plt.plot(x1, y1, color='red', linewidth='.5', alpha=.3)
         plt.show()
         plt.ylabel('Cost')
         plt.xlabel('# of Iterations')
