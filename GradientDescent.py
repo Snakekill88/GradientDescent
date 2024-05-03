@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+# calculating the accuracy of the prediction
 def cal_cost(theta, x, y):
     m = len(y)
     predictions = x.dot(theta)
@@ -15,7 +16,9 @@ def gradient_descent(X, y, theta, learning_rate=0.01, iterations=100):
     theta_history = np.zeros((iterations, 2))
     for it in range(iterations):
         prediction = np.dot(X, theta)
-        theta = theta - (1 / m) * learning_rate * (X.T.dot((prediction - y)))
+        # regenerates the theta pair based on learning rate and direction of the dot product of the values
+        theta = theta - learning_rate * (1 / m) * (X.T.dot((prediction - y)))
+        # record trials for graphing
         theta_history[it, :] = theta.T
         cost_history[it] = cal_cost(theta, X, y)
 
@@ -29,12 +32,13 @@ if __name__ == '__main__':
     it_lr = [(2000, 0.001), (500, 0.01), (200, 0.05), (100, 0.1)]
 
     for n in it_lr:
+        # generates a random slope and y-intercept value
         theta = np.random.randn(2, 1)
         X_b = np.c_[(np.ones((len(X), 1)), X)]
         theta, cost_history, theta_history = gradient_descent(X_b, Y, theta, n[1], n[0])
 
         print('Theta0:              {:0.3f},\nTheta1:              {:03f}'.format(theta[0][0], theta[1][0]))
-        print('Final Cost/MSE:      {:0.3f}', format(cost_history[-1]))
+        print('Final Cost/MSE:     ', format(cost_history[-1]))
 
         plt.title('lr={:}'.format(n[1]))
         plt.xlabel('X')
@@ -44,7 +48,7 @@ if __name__ == '__main__':
         x1 = np.linspace(0.0, 2.0)
         for i in theta_history:
             y1 = i[0] * x1 + i[1]
-            plt.plot(x1, y1, color='red', linewidth='.5', alpha=.3)
+            plt.plot(x1, y1, color='red', linewidth='0.5', alpha=.3)
         plt.show()
         plt.ylabel('Cost')
         plt.xlabel('# of Iterations')
